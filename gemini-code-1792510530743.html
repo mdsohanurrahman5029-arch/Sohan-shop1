@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOHAN SHOP | Official Premium Apparel & Fragrances</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-[#fafafa] text-gray-900 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-black text-white text-xs sm:text-sm py-2 px-4 text-center font-medium tracking-wide">
+        🎉 Free Attar Combo when you buy items worth 1400 BDT | Call: <a href="tel:01785827611" class="underline hover:text-amber-400">01785827611</a>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <!-- Brand Logo -->
+            <a href="#" class="text-2xl font-black tracking-widest text-black uppercase flex items-center gap-1">
+                SOHAN <span class="bg-black text-white px-1.5 py-0.5 rounded text-lg">SHOP</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-8 font-semibold text-sm uppercase tracking-wider text-gray-700">
+                <a href="#" class="hover:text-black transition">Home</a>
+                <a href="#shop" class="text-black border-b-2 border-black pb-1">Shop All</a>
+                <a href="#about" class="hover:text-black transition">About</a>
+                <a href="#contact" class="hover:text-black transition">Contact</a>
+            </nav>
+
+            <!-- WhatsApp Direct Link -->
+            <div class="flex items-center space-x-4 text-gray-800">
+                <a href="https://wa.me/8801785827611" target="_blank" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-3 py-2 rounded-full transition">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span class="hidden sm:inline">Help & Support</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub-Header / Hero Title Banner -->
+    <section class="bg-white border-b border-gray-100 py-8 px-4 text-center">
+        <h1 class="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-gray-900">Shop All Products</h1>
+        <p class="text-gray-500 text-xs sm:text-sm mt-1">Official Premium Apparel & Fragrances by Sohan</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow" id="shop">
+        
+        <!-- Dynamically Generated Category Filter Buttons -->
+        <div id="categoryFilterContainer" class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-4 mb-6 text-sm">
+            <!-- Category pills loaded dynamically via JS -->
+        </div>
+
+        <!-- Product Grid -->
+        <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            <!-- Products rendered dynamically via JavaScript -->
+        </div>
+    </main>
+
+    <!-- Order Modal (Shopbase BD Style Order Form) -->
+    <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-gray-400 hover:text-black text-xl font-bold">&times;</button>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-1">অর্ডার নিশ্চিত করুন</h3>
+            <p class="text-xs text-gray-500 mb-4">অর্ডারটি সম্পন্ন করতে আপনার সঠিক তথ্য নিচে প্রদান করুন</p>
+
+            <form id="orderForm" onsubmit="handleWhatsAppOrder(event)">
+                <input type="hidden" id="selectedProductName">
+                <input type="hidden" id="selectedProductPrice">
+
+                <!-- Product Summary Box -->
+                <div class="bg-gray-50 p-3 rounded-lg mb-4 flex justify-between items-center border border-gray-200">
+                    <div>
+                        <div class="font-bold text-sm text-gray-800" id="summaryName">Product Name</div>
+                        <div class="text-xs text-gray-500">মূল্য: <span class="font-semibold text-black" id="summaryPrice">৳0</span></div>
+                    </div>
+                    <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-1 rounded">ক্যাশ অন ডেলিভারি</span>
+                </div>
+
+                <!-- Input Fields Matching Screen Layout -->
+                <div class="space-y-4">
+                    <!-- 1. আপনার নাম (Customer Name) -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-800 mb-1">আপনার নাম *</label>
+                        <input type="text" id="custName" required placeholder="আপনার পুরো নাম লিখুন" class="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
+
+                    <!-- Mobile Number -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-800 mb-1">মোবাইল নম্বর *</label>
+                        <input type="tel" id="custPhone" required placeholder="017XXXXXXXX" class="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
+
+                    <!-- 2. জেলা (District) -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-800 mb-1">জেলা *</label>
+                        <select id="custDistrict" onchange="updateCourierCharge()" required class="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black outline-none transition">
+                            <option value="Dhaka">Dhaka (ঢাকা)</option>
+                            <option value="Chattogram">Chattogram (চট্টগ্রাম)</option>
+                            <option value="Sylhet">Sylhet (সিলেট)</option>
+                            <option value="Rajshahi">Rajshahi (রাজশাহী)</option>
+                            <option value="Khulna">Khulna (খুলনা)</option>
+                            <option value="Barishal">Barishal (বরিশাল)</option>
+                            <option value="Rangpur">Rangpur (রংপুর)</option>
+                            <option value="Mymensingh">Mymensingh (ময়মনসিংহ)</option>
+                            <option value="Other">অন্যান্য জেলা (Other District)</option>
+                        </select>
+                    </div>
+
+                    <!-- 3. থানা / এরিয়া (Thana / Area) -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-800 mb-1">থানা / এরিয়া *</label>
+                        <input type="text" id="custThana" required placeholder="যেমন: Adabor, Mirpur, Dhanmondi ইত্যাদি" class="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
+
+                    <!-- 4. ডেলিভারির ঠিকানা (Delivery Address) -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-800 mb-1">ডেলিভারির ঠিকানা *</label>
+                        <textarea id="custAddress" required rows="3" placeholder="বাড়ি নম্বর, রোড নম্বর, ফ্ল্যাট ইত্যাদি স্পষ্ট করে লিখুন" class="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black outline-none transition"></textarea>
+                        <p class="text-[11px] text-pink-600 mt-1">ঠিকানা স্পষ্ট এবং সঠিক করে লিখুন, অস্পষ্ট ঠিকানা দিলে ডেলিভারি লেট হয়।</p>
+                    </div>
+
+                    <!-- Size / Variant -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-800 mb-1">সাইজ / ভ্যারিয়েন্ট (যদি থাকে)</label>
+                        <input type="text" id="custSize" placeholder="যেমন: M, L, XL, 10ml, Free Size" class="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
+
+                    <!-- 5. কুরিয়ার চার্জ (Courier Charge Display) -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-800 mb-1">কুরিয়ার চার্জ *</label>
+                        <input type="text" id="courierChargeDisplay" value="70" readonly class="w-full px-3 py-2.5 text-sm bg-gray-100 border border-gray-200 rounded-lg font-bold text-gray-700 outline-none">
+                    </div>
+                </div>
+
+                <!-- Total Amount -->
+                <div class="mt-5 pt-3 border-t flex justify-between items-center font-bold text-base text-gray-900">
+                    <span>সর্বমোট (কুরিয়ার চার্জসহ):</span>
+                    <span class="text-green-600 text-lg" id="grandTotal">৳0</span>
+                </div>
+
+                <button type="submit" class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp-এ অর্ডার পোস্ট করুন
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div id="adminModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-black text-xl font-bold">&times;</button>
+            
+            <h3 class="text-xl font-bold text-gray-900 mb-1">SOHAN SHOP Admin Panel</h3>
+            <p class="text-xs text-gray-500 mb-4">পাসওয়ার্ড প্রদান করে লগইন করুন</p>
+
+            <!-- Password Gate -->
+            <div id="adminAuthSection" class="space-y-3 mb-4">
+                <input type="password" id="adminPassInput" placeholder="এডমিন পাসওয়ার্ড লিখুন" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-black">
+                <button onclick="authenticateAdmin()" class="w-full bg-black text-white font-bold py-2 rounded-lg hover:bg-gray-800 transition text-sm">লগইন করুন</button>
+            </div>
+
+            <!-- Admin Controls -->
+            <div id="adminControlSection" class="hidden space-y-6">
+                <!-- Change Password Form -->
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                    <h4 class="font-bold text-sm text-gray-800 mb-2">🔑 পাসওয়ার্ড পরিবর্তন করুন:</h4>
+                    <div class="flex gap-2">
+                        <input type="password" id="newPassInput" placeholder="নতুন পাসওয়ার্ড দিন" class="w-full px-3 py-1.5 text-sm border rounded-lg">
+                        <button onclick="changeAdminPassword()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-1.5 rounded-lg text-xs transition whitespace-nowrap">সেভ করুন</button>
+                    </div>
+                </div>
+
+                <!-- Add Product Form -->
+                <form onsubmit="handleAddProduct(event)" class="space-y-3 bg-gray-50 p-4 rounded-xl border">
+                    <h4 class="font-bold text-sm text-gray-800">নতুন প্রোডাক্ট যোগ করুন:</h4>
+                    
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">প্রোডাক্টের নাম *</label>
+                        <input type="text" id="prodTitle" placeholder="আপনার ইচ্ছামতো প্রোডাক্টের নাম লিখুন" required class="w-full px-3 py-2 text-sm border rounded-lg">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">ক্যাটাগরির নাম *</label>
+                        <input type="text" id="prodCat" placeholder="যেমন: Cloths, Attar, Jersey, Shoes ইত্যাদি" required class="w-full px-3 py-2 text-sm border rounded-lg">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">বিক্রয় মূল্য (৳) *</label>
+                            <input type="number" id="prodPrice" placeholder="যেমন: 550" required class="w-full px-3 py-2 text-sm border rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">আগের মূল্য (ঐচ্ছিক)</label>
+                            <input type="number" id="prodOldPrice" placeholder="যেমন: 750" class="w-full px-3 py-2 text-sm border rounded-lg">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">ব্যাজ (ঐচ্ছিক)</label>
+                        <input type="text" id="prodBadge" placeholder="যেমন: NEW, BEST SELLER, 20% OFF" class="w-full px-3 py-2 text-sm border rounded-lg">
+                    </div>
+
+                    <!-- Multiple Image Upload Field -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">প্রোডাক্টের ছবি আপলোড করুন</label>
+                        <input type="file" id="prodImgFiles" accept="image/*" multiple class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800 cursor-pointer border rounded-lg p-1">
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg transition text-sm">
+                        + প্রোডাক্ট যোগ করুন
+                    </button>
+                </form>
+
+                <!-- Current Products List for Admin -->
+                <div>
+                    <h4 class="font-bold text-sm text-gray-800 mb-2">বর্তমান প্রোডাক্ট তালিকা:</h4>
+                    <div id="adminProductList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#111111] text-gray-400 py-12 mt-12 border-t border-gray-800" id="contact">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+            <div>
+                <h3 class="text-xl font-black text-white tracking-widest mb-3">SOHAN SHOP</h3>
+                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Official Premium Apparel & Fragrances by Sohan. High-quality cloths and pure long-lasting fragrances.</p>
+                <div class="flex space-x-3 text-white text-base">
+                    <a href="https://wa.me/8801785827611" target="_blank" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-600"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-3 uppercase text-xs tracking-wider">Shop</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" class="hover:text-white">All Products</a></li>
+                    <li><a href="#" class="hover:text-white">New Arrivals</a></li>
+                    <li><a href="#" class="hover:text-white">Bestsellers</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-3 uppercase text-xs tracking-wider">Support</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" class="hover:text-white">Delivery Information</a></li>
+                    <li><a href="#" class="hover:text-white">Exchange & Return Policy</a></li>
+                    <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-3 uppercase text-xs tracking-wider">Contact Us</h4>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-center space-x-2">
+                        <i class="fa-solid fa-phone text-amber-500"></i>
+                        <a href="tel:01785827611" class="hover:text-white">01785827611</a>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="fa-solid fa-envelope text-amber-500"></i>
+                        <a href="mailto:mdsohanurrahman5029@gmail.com" class="hover:text-white">mdsohanurrahman5029@gmail.com</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 mt-8 pt-6 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-2">
+            <div>&copy; 2026 SOHAN SHOP. All rights reserved.</div>
+            <div>
+                <button onclick="toggleAdminModal()" class="text-gray-500 hover:text-white transition underline flex items-center gap-1">
+                    <i class="fa-solid fa-lock text-[10px]"></i> Admin Panel Access
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const OWNER_WHATSAPP = "8801785827611";
+        let adminPassword = localStorage.getItem('sohan_admin_pass') || '1234';
+
+        const initialProducts = [
+            { id: 1, title: "Attar Combo", category: "Attar & Perfume", price: 550, oldPrice: 1100, badge: "BEST SELLER", badgeBg: "bg-red-600", icon: "fa-bottle-droplet", images: [] },
+            { id: 2, title: "Drop Shoulder-Chandus Edition", category: "Drop Shoulder", price: 550, oldPrice: null, badge: "NEW", badgeBg: "bg-black", icon: "fa-shirt", images: [] },
+            { id: 3, title: "Triple Style Pant", category: "Cloths", price: 899, oldPrice: null, badge: null, badgeBg: "", icon: "fa-user-astronaut", images: [] },
+            { id: 4, title: "Premium Panjabi", category: "Panjabi", price: 650, oldPrice: 1299, badge: "50% OFF", badgeBg: "bg-red-600", icon: "fa-user-tie", images: [] }
+        ];
+
+        let products = JSON.parse(localStorage.getItem('sohan_products')) || initialProducts;
+        let selectedCategory = 'All';
+
+        function updateCategoryFilters() {
+            const categories = ['All', ...new Set(products.map(p => p.category))];
+            const container = document.getElementById('categoryFilterContainer');
+            container.innerHTML = '';
+
+            categories.forEach(cat => {
+                const isActive = cat === selectedCategory;
+                const activeClass = isActive ? 'bg-black text-white border-black' : 'bg-white text-gray-700 border-gray-300 hover:border-black';
+                
+                container.innerHTML += `
+                    <button onclick="filterCategory('${cat}')" class="px-4 py-2 rounded-full border ${activeClass} font-medium whitespace-nowrap transition">
+                        ${cat}
+                    </button>
+                `;
+            });
+        }
+
+        function renderProducts(items) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>`;
+                return;
+            }
+
+            items.forEach(product => {
+                const badgeHTML = product.badge ? `<span class="absolute top-2 left-2 z-10 ${product.badgeBg || 'bg-black'} text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded shadow">${product.badge}</span>` : '';
+                const oldPriceHTML = product.oldPrice ? `<span class="text-xs text-gray-400 line-through">৳${product.oldPrice}</span>` : '';
+
+                const hasImages = product.images && product.images.length > 0;
+                const mainImgSrc = hasImages ? product.images[0] : null;
+
+                let thumbsHTML = '';
+                if (hasImages && product.images.length > 1) {
+                    thumbsHTML = `<div class="flex gap-1 p-2 overflow-x-auto no-scrollbar bg-gray-50 border-t border-gray-100">`;
+                    product.images.forEach((imgSrc) => {
+                        thumbsHTML += `<img src="${imgSrc}" onclick="switchProductImage(${product.id}, '${imgSrc}')" class="w-8 h-8 object-cover rounded cursor-pointer border hover:border-black transition">`;
+                    });
+                    thumbsHTML += `</div>`;
+                }
+
+                const card = `
+                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition flex flex-col justify-between group">
+                        <div>
+                            <div class="relative bg-gray-100 h-48 sm:h-56 flex items-center justify-center overflow-hidden">
+                                ${badgeHTML}
+                                ${mainImgSrc 
+                                    ? `<img id="prod-img-${product.id}" src="${mainImgSrc}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">`
+                                    : `<i class="fa-solid ${product.icon || 'fa-bag-shopping'} text-5xl text-gray-300"></i>`
+                                }
+                            </div>
+                            ${thumbsHTML}
+                            <div class="p-3 sm:p-4">
+                                <span class="text-[11px] text-amber-600 font-bold uppercase tracking-wider">${product.category}</span>
+                                <h3 class="font-bold text-gray-900 text-sm sm:text-base mt-0.5 line-clamp-1">${product.title}</h3>
+                                <div class="flex items-center space-x-2 mt-2">
+                                    <span class="text-base sm:text-lg font-black text-black">৳${product.price}</span>
+                                    ${oldPriceHTML}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 sm:p-4 pt-0">
+                            <button onclick="openOrderModal('${product.title}', ${product.price})" class="w-full bg-black hover:bg-amber-500 hover:text-black text-white text-xs sm:text-sm font-bold py-2.5 rounded-lg transition duration-200 flex items-center justify-center gap-1.5">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function switchProductImage(prodId, imgSrc) {
+            const imgElement = document.getElementById(`prod-img-${prodId}`);
+            if (imgElement) imgElement.src = imgSrc;
+        }
+
+        function filterCategory(cat) {
+            selectedCategory = cat;
+            updateCategoryFilters();
+            if (cat === 'All') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === cat);
+                renderProducts(filtered);
+            }
+        }
+
+        function openOrderModal(name, price) {
+            document.getElementById('selectedProductName').value = name;
+            document.getElementById('selectedProductPrice').value = price;
+            document.getElementById('summaryName').innerText = name;
+            document.getElementById('summaryPrice').innerText = `৳${price}`;
+            
+            updateCourierCharge();
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+
+        function updateCourierCharge() {
+            const district = document.getElementById('custDistrict').value;
+            const charge = district === 'Dhaka' ? 70 : 130;
+            document.getElementById('courierChargeDisplay').value = `${charge} BDT`;
+            
+            const price = parseInt(document.getElementById('selectedProductPrice').value) || 0;
+            const grand = price + charge;
+            document.getElementById('grandTotal').innerText = `৳${grand}`;
+        }
+
+        function handleWhatsAppOrder(e) {
+            e.preventDefault();
+
+            const pName = document.getElementById('selectedProductName').value;
+            const pPrice = document.getElementById('selectedProductPrice').value;
+            const cName = document.getElementById('custName').value;
+            const cPhone = document.getElementById('custPhone').value;
+            const cDistrict = document.getElementById('custDistrict').value;
+            const cThana = document.getElementById('custThana').value;
+            const cAddress = document.getElementById('custAddress').value;
+            const cSize = document.getElementById('custSize').value || 'N/A';
+            const cCharge = cDistrict === 'Dhaka' ? 70 : 130;
+            const total = parseInt(pPrice) + cCharge;
+
+            const message = `🛍️ *NEW ORDER - SOHAN SHOP*%0A%0A` +
+                `📌 *প্রোডাক্ট:* ${pName}%0A` +
+                `💵 *মূল্য:* ৳${pPrice}%0A` +
+                `📏 *সাইজ/ভ্যারিয়েন্ট:* ${cSize}%0A` +
+                `🚚 *কুরিয়ার চার্জ:* ৳${cCharge}%0A` +
+                `💰 *সর্বমোট:* ৳${total}%0A%0A` +
+                `👤 *আপনার নাম:* ${cName}%0A` +
+                `📞 *মোবাইল নম্বর:* ${cPhone}%0A` +
+                `🏙️ *জেলা:* ${cDistrict}%0A` +
+                `📍 *থানা/এরিয়া:* ${cThana}%0A` +
+                `🏠 *ঠিকানা:* ${cAddress}%0A%0A` +
+                `অর্ডারটি পোস্ট করার জন্য অনুরোধ করা হচ্ছে।`;
+
+            const whatsappURL = `https://wa.me/${OWNER_WHATSAPP}?text=${message}`;
+            window.open(whatsappURL, '_blank');
+            closeOrderModal();
+        }
+
+        function toggleAdminModal() {
+            document.getElementById('adminModal').classList.toggle('hidden');
+        }
+
+        function authenticateAdmin() {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === adminPassword) {
+                document.getElementById('adminAuthSection').classList.add('hidden');
+                document.getElementById('adminControlSection').classList.remove('hidden');
+                renderAdminProductList();
+            } else {
+                alert('ভুল পাসওয়ার্ড!');
+            }
+        }
+
+        function changeAdminPassword() {
+            const newPass = document.getElementById('newPassInput').value;
+            if (newPass.trim() !== '') {
+                adminPassword = newPass;
+                localStorage.setItem('sohan_admin_pass', newPass);
+                alert('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
+                document.getElementById('newPassInput').value = '';
+            }
+        }
+
+        function handleAddProduct(e) {
+            e.preventDefault();
+            const files = Array.from(document.getElementById('prodImgFiles').files);
+
+            if (files.length > 0) {
+                const promises = files.map(file => new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = e => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                }));
+
+                Promise.all(promises).then(imagesArray => saveNewProduct(imagesArray));
+            } else {
+                saveNewProduct([]);
+            }
+        }
+
+        function saveNewProduct(imagesArray) {
+            const newProd = {
+                id: Date.now(),
+                title: document.getElementById('prodTitle').value,
+                category: document.getElementById('prodCat').value.trim(),
+                price: parseInt(document.getElementById('prodPrice').value),
+                oldPrice: document.getElementById('prodOldPrice').value ? parseInt(document.getElementById('prodOldPrice').value) : null,
+                badge: document.getElementById('prodBadge').value || null,
+                badgeBg: 'bg-black',
+                images: imagesArray,
+                icon: 'fa-bag-shopping'
+            };
+
+            products.unshift(newProd);
+            saveProductsAndRefresh();
+            
+            document.getElementById('prodTitle').value = '';
+            document.getElementById('prodCat').value = '';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodOldPrice').value = '';
+            document.getElementById('prodBadge').value = '';
+            document.getElementById('prodImgFiles').value = '';
+
+            alert('নতুন প্রোডাক্ট সফলভাবে যোগ করা হয়েছে!');
+        }
+
+        function deleteProduct(id) {
+            if (confirm('আপনি কি সত্যিই এটি মুছে ফেলতে চান?')) {
+                products = products.filter(p => p.id !== id);
+                saveProductsAndRefresh();
+            }
+        }
+
+        function renderAdminProductList() {
+            const container = document.getElementById('adminProductList');
+            container.innerHTML = '';
+
+            products.forEach(p => {
+                const thumb = p.images && p.images.length > 0 ? p.images[0] : null;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center bg-white p-2 border rounded-lg text-xs">
+                        <div class="flex items-center gap-2">
+                            ${thumb ? `<img src="${thumb}" class="w-8 h-8 object-cover rounded">` : `<i class="fa-solid fa-bag-shopping text-gray-400"></i>`}
+                            <div>
+                                <span class="font-bold text-gray-800">${p.title}</span>
+                                <span class="text-xs text-amber-600 block">${p.category} - ৳${p.price}</span>
+                            </div>
+                        </div>
+                        <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-700 font-bold px-2 py-1">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        function saveProductsAndRefresh() {
+            localStorage.setItem('sohan_products', JSON.stringify(products));
+            updateCategoryFilters();
+            filterCategory(selectedCategory);
+            renderAdminProductList();
+        }
+
+        // Initial Load
+        updateCategoryFilters();
+        renderProducts(products);
+    </script>
+</body>
+</html>
